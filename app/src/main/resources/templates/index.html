@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Valkyrie</title>
+    <link rel="stylesheet" th:ref="@{css/style.css}">
+</head>
+
+<body>
+    <form method="POST" action="login">
+        <div>
+            <label for="username">Username :</label>
+            <input type="text" id="username" name="username" value="" autocomplete="valkyrie:username" />
+        </div>
+        <div>
+            <label for="password">Password :</label>
+            <input type="password" id="password" name="password" value="" autocomplete="valkyrie:password" />
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</body>
+
+</html>
