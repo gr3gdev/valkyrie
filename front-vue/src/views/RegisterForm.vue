@@ -4,9 +4,11 @@ import LastnameField from "../components/LastnameField.vue";
 import UsernameField from "../components/UsernameField.vue";
 import NewPasswordFields from "../components/NewPasswordFields.vue";
 import NewEmailFields from "../components/NewEmailFields.vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
 import { ref } from "vue";
 
+const router = useRouter();
 const form = ref(null);
 const firstname = ref("");
 const lastname = ref("");
@@ -30,13 +32,31 @@ const handleRegister = () => {
           email: email.value,
           confirmEmail: confirmEmail.value,
         })
-        .then((res) => console.log("TODO register", res));
+        .then(() => {
+          router.push("/login");
+        })
+        .catch((err) => {
+          if (err) {
+            for (const [field, message] of Object.entries(err.response.data)) {
+              console.error(field, message);
+              // TODO show dialog with errors
+            }
+          }
+        });
     }
   }
 };
 </script>
 
 <template>
+  <dialog class="error">
+    <p class="firstname hidden"></p>
+    <p class="lastname hidden"></p>
+    <p class="username hidden"></p>
+    <p class="password hidden"></p>
+    <p class="email hidden"></p>
+    <p class="userModel hidden"></p>
+  </dialog>
   <form ref="form" class="mx-auto" @submit.prevent="handleRegister">
     <FirstnameField v-model:firstname="firstname" />
     <LastnameField v-model:lastname="lastname" />

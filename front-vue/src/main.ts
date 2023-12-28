@@ -12,7 +12,7 @@ import RegisterFormVue from './views/RegisterForm.vue'
 import ResetPasswordFormVue from './views/ResetPasswordForm.vue'
 
 const i18n = createI18n({
-    locale: 'en',
+    locale: navigator.language,
     fallbackLocale: 'en',
     messages: {
         en: en,

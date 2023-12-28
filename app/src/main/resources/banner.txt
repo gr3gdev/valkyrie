@@ -4,6 +4,6 @@
    \ V / (_| | |   <| |_| | |  | |  __/
     \_/ \__,_|_|_|\_\\__, |_|  |_|\___|
                      |___/             
-Name : ${application.title}
+                                       
 Version : ${application.formatted-version}
 Generated with spring-boot${spring-boot.formatted-version}

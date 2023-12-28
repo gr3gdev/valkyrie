@@ -58,4 +58,8 @@ html, body {
     a:hover {
         @apply text-blue-400;
     }
+
+    .error {
+        @apply text-red-600 bg-slate-300 dark:text-black dark:bg-red-200;
+    }
 }

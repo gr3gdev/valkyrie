@@ -1,6 +1,7 @@
 package com.github.gr3gdev.valkyrie.dao.bean;
 
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -23,7 +24,7 @@ public class User {
     private String lastname;
     private String email;
     @OneToMany(mappedBy = "username")
-    private Set<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();
     private boolean accountExpired;
     private boolean accountLocked;
     private boolean credentialsExpired;
