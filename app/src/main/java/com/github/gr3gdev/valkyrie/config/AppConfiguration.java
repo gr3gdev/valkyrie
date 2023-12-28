@@ -13,8 +13,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
@@ -55,8 +57,10 @@ public class AppConfiguration {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
             JpaUserDetailsService userDetailsService)
             throws Exception {
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/register", "/favicon.ico"));
         http.authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers("/assets/**", "/favicon.ico", "/register", "/resetPassword").permitAll()
+                .requestMatchers("/assets/**", "/favicon.ico", "/error").permitAll()
+                .requestMatchers("/register", "/resetPassword").anonymous()
                 .anyRequest().authenticated())
                 .userDetailsService(userDetailsService)
                 .passwordManagement(pwd -> pwd.changePasswordPage("/resetPassword"))
@@ -78,7 +82,7 @@ public class AppConfiguration {
         return new ImmutableJWKSet<>(jwkSet);
     }
 
-    private static KeyPair generateRsaKey() {
+    private KeyPair generateRsaKey() {
         KeyPair keyPair;
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
@@ -89,4 +93,15 @@ public class AppConfiguration {
         }
         return keyPair;
     }
+
+    @Bean
+    JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
+
+    @Bean
+    AuthorizationServerSettings authorizationServerSettings() {
+        return AuthorizationServerSettings.builder().build();
+    }
+
 }

@@ -7,9 +7,9 @@ import App from './App.vue'
 
 import en from './locales/en.json'
 import fr from './locales/fr.json'
-import LoginFormVue from './components/LoginForm.vue'
-import RegisterFormVue from './components/RegisterForm.vue'
-import ResetPasswordFormVue from './components/ResetPasswordForm.vue'
+import LoginFormVue from './views/LoginForm.vue'
+import RegisterFormVue from './views/RegisterForm.vue'
+import ResetPasswordFormVue from './views/ResetPasswordForm.vue'
 
 const i18n = createI18n({
     locale: 'en',

@@ -34,6 +34,10 @@ public class JpaUserDetailsService implements UserDetailsService {
         return mapTo(userRepository.save(user));
     }
 
+    public boolean exists(String username) {
+        return userRepository.existsById(username);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findById(username)

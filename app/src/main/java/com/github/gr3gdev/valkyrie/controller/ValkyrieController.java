@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.github.gr3gdev.valkyrie.model.UserModel;
 import com.github.gr3gdev.valkyrie.service.JpaUserDetailsService;
-
+import com.github.gr3gdev.valkyrie.validator.UsernameExists;
 
 @Controller
-@Validated
 class ValkyrieController {
 
     private final JpaUserDetailsService userDetailsService;
@@ -26,13 +25,13 @@ class ValkyrieController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody UserModel userModel) {
+    public String register(@Validated @RequestBody UserModel userModel) {
         userDetailsService.save(userModel);
         return "index";
     }
 
     @PostMapping("/resetPassword")
-    public String resetPassword(@RequestBody String username) {
+    public String resetPassword(@UsernameExists @RequestBody String username) {
         return "index";
     }
 }

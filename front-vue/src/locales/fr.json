@@ -6,12 +6,28 @@
         "confirmPassword": "Confirmer votre mot de passe",
         "firstname": "Entrer votre prénom",
         "lastname": "Entrer votre nom",
-        "forgotPassword": "Mot de passe oublié"
+        "forgotPassword": "Mot de passe oublié",
+        "email": "Entrer votre email",
+        "confirmEmail": "Confirmer votre email"
+    },
+    "placeholders": {
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "firstname": "Prénom",
+        "lastname": "Nom de famille"
     },
     "buttons": {
         "login": "Se connecter",
         "register": "S'enregistrer",
         "reset": "Réinitialiser mon mot de passe"
+    },
+    "errors": {
+        "password": {
+            "mismatch": "Les mots de passe ne sont pas les mêmes"
+        },
+        "email": {
+            "mismatch": "Les emails ne sont pas les mêmes"
+        }
     },
     "newUser": "Nouvel utilisateur ?",
     "backToLogin": "Retourner sur l'écran de connexion",

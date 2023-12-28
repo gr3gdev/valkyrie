@@ -19,10 +19,14 @@ html, body {
         @apply h-8 w-full;
     }
 
-    input[type="text"], input[type="password"] {
+    input[type="text"], input[type="password"], input[type="email"] {
         @apply text-black;
     }
     
+    input[type="text"]:invalid, input[type="password"]:invalid, input[type="email"]:invalid {
+        @apply border-red-600 border-2;
+    }
+
     button[type="submit"] {
         @apply bg-slate-700 dark:bg-slate-400 text-white dark:text-slate-800 w-full;
     }
@@ -32,7 +36,7 @@ html, body {
     }
 
     .icon {
-        @apply w-8 h-8 p-1 z-10 bg-white text-gray-500;
+        @apply w-6 h-6 mx-1 my-1 z-10 bg-white text-gray-500;
     }
 
     .text-icon {
@@ -43,7 +47,7 @@ html, body {
         @apply bg-slate-700 dark:bg-slate-400 text-white dark:text-slate-800 w-full p-1;
     }
 
-    .form-footer {
+    .footer {
         @apply w-full my-8;
     }
 
