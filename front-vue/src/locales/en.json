@@ -1,0 +1,21 @@
+{
+    "title": "Please Log In",
+    "labels": {
+        "username": "Enter username",
+        "password": "Enter password",
+        "confirmPassword": "Confirm password",
+        "firstname": "Enter firstname",
+        "lastname": "Enter lastname",
+        "forgotPassword": "Forgot password"
+    },
+    "buttons": {
+        "login": "Log in",
+        "register": "Register",
+        "reset": "Reset password"
+    },
+    "newUser": "New user ?",
+    "backToLogin": "Return to login",
+    "select": {
+        "locale": "Choose your language"
+    }
+}

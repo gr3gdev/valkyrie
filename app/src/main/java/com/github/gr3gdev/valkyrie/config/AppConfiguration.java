@@ -19,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
+import com.github.gr3gdev.valkyrie.service.JpaUserDetailsService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -46,20 +47,21 @@ public class AppConfiguration {
                         new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
                 .oauth2ResourceServer((resourceServer) -> resourceServer
                         .jwt(Customizer.withDefaults()));
-
         return http.build();
     }
 
     @Bean
     @Order(2)
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().authenticated())
-                // Form login handles the redirect to the login page from the
-                // authorization server filter chain
-                .formLogin(Customizer.withDefaults());
-
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
+            JpaUserDetailsService userDetailsService)
+            throws Exception {
+        http.authorizeHttpRequests((authorize) -> authorize
+                .requestMatchers("/assets/**", "/favicon.ico", "/register", "/resetPassword").permitAll()
+                .anyRequest().authenticated())
+                .userDetailsService(userDetailsService)
+                .passwordManagement(pwd -> pwd.changePasswordPage("/resetPassword"))
+                .formLogin(form -> form.loginPage("/login")
+                        .permitAll());
         return http.build();
     }
 

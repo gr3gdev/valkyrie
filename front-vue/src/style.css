@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+    @apply h-full bg-white dark:bg-slate-950 text-slate-950 dark:text-white;
+}
+
+@layer components {
+    #app {
+        @apply w-80 mx-auto;
+    }
+
+    h1 {
+        @apply w-full my-10 text-xl font-bold text-center;
+    }
+    
+    input, button, select {
+        @apply h-8 w-full;
+    }
+
+    input[type="text"], input[type="password"] {
+        @apply text-black;
+    }
+    
+    button[type="submit"] {
+        @apply bg-slate-700 dark:bg-slate-400 text-white dark:text-slate-800 w-full;
+    }
+
+    button[type="submit"]:hover {
+        @apply bg-slate-400 dark:bg-slate-700 text-slate-800 dark:text-white cursor-pointer;
+    }
+
+    .icon {
+        @apply w-8 h-8 p-1 z-10 bg-white text-gray-500;
+    }
+
+    .text-icon {
+        @apply -mx-8 px-10;
+    }
+
+    .locale-changer select {
+        @apply bg-slate-700 dark:bg-slate-400 text-white dark:text-slate-800 w-full p-1;
+    }
+
+    .form-footer {
+        @apply w-full my-8;
+    }
+
+    a {
+        @apply text-blue-700;
+    }
+
+    a:hover {
+        @apply text-blue-400;
+    }
+}

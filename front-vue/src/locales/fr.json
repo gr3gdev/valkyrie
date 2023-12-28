@@ -1,0 +1,21 @@
+{
+    "title": "Connectez-vous",
+    "labels": {
+        "username": "Entrer votre nom d'utilisateur",
+        "password": "Entrer votre mot de passe",
+        "confirmPassword": "Confirmer votre mot de passe",
+        "firstname": "Entrer votre prénom",
+        "lastname": "Entrer votre nom",
+        "forgotPassword": "Mot de passe oublié"
+    },
+    "buttons": {
+        "login": "Se connecter",
+        "register": "S'enregistrer",
+        "reset": "Réinitialiser mon mot de passe"
+    },
+    "newUser": "Nouvel utilisateur ?",
+    "backToLogin": "Retourner sur l'écran de connexion",
+    "select": {
+        "locale": "Choisir une langue"
+    }
+}

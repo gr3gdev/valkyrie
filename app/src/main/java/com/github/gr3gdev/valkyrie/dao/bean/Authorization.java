@@ -1,6 +1,10 @@
 package com.github.gr3gdev.valkyrie.dao.bean;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -64,4 +68,8 @@ public class Authorization {
     private Instant deviceCodeExpiresAt;
     @Column(length = 2000)
     private String deviceCodeMetadata;
+    @CreatedDate
+    private ZonedDateTime created;
+    @LastModifiedDate
+    private ZonedDateTime modified;
 }

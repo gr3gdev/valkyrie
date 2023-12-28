@@ -28,7 +28,9 @@ public class JpaUserDetailsService implements UserDetailsService {
         final User user = new User();
         user.setUsername(userModel.getUsername());
         user.setPassword(passwordEncoder.encode(userModel.getPassword()));
-        // TODO
+        user.setFirstname(userModel.getFirstname());
+        user.setLastname(userModel.getLastname());
+        user.setEmail(userModel.getEmail());
         return mapTo(userRepository.save(user));
     }
 
