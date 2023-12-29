@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 public class ValkyrieApplication {
 
     public static void main(String[] args) {
+        //System.setProperty("spring.profiles.active", "dev");
         SpringApplication.run(ValkyrieApplication.class, args);
     }
 

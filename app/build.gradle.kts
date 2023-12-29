@@ -20,8 +20,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-authorization-server")
     runtimeOnly("org.postgresql:postgresql")
 	compileOnly("org.projectlombok:lombok")
+    developmentOnly("com.h2database:h2")
 	annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
     testImplementation("com.h2database:h2")
 }
 
@@ -38,4 +40,11 @@ java {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+}
+
+tasks.register<org.springframework.boot.gradle.tasks.run.BootRun>("bootRunDev") {
+    group = "application"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass = "com.github.gr3gdev.valkyrie.ValkyrieApplication"
+    systemProperty("spring.profiles.active", "dev")
 }

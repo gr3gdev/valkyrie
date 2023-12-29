@@ -11,7 +11,7 @@ const handleResetPassword = () => {
     const htmlForm = form.value as HTMLFormElement;
     if (htmlForm.reportValidity()) {
       axios
-        .post("/resetPassword", {
+        .post("http://localhost:9000/resetPassword", {
           username: username.value,
         })
         .then((res) => console.log("TODO reset password", res));

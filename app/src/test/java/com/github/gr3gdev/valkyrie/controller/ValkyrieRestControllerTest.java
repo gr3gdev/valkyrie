@@ -2,6 +2,7 @@ package com.github.gr3gdev.valkyrie.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 
 import java.util.Map;
 
@@ -15,6 +16,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapLikeType;
@@ -31,8 +34,15 @@ public class ValkyrieRestControllerTest {
     private MockMvc mockMvc;
 
     Map<String, String> post(UserModel userModel, ResultMatcher status) throws Exception {
+
+        final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", "public-client");
+
         final ObjectMapper mapper = new ObjectMapper();
         final MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/register")
+                .params(params)
+                .with(httpBasic("public-client", "secret"))
                 .content(mapper.writeValueAsString(userModel))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status)

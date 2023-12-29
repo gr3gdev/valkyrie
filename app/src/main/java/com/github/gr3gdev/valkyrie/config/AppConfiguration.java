@@ -6,20 +6,24 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.github.gr3gdev.valkyrie.service.JpaUserDetailsService;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -32,6 +36,9 @@ import com.nimbusds.jose.proc.SecurityContext;
 @EnableWebSecurity
 public class AppConfiguration {
 
+    @Value("${single.page.application.url:/}")
+    String externalUrl;
+
     @Bean
     @Order(1)
     SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -43,13 +50,14 @@ public class AppConfiguration {
                             .authenticationProviders(
                                     CustomClientMetadataConfig.configureCustomClientMetadataConverters());
                 }));
-        http.exceptionHandling((exceptions) -> exceptions
-                .defaultAuthenticationEntryPointFor(
-                        new LoginUrlAuthenticationEntryPoint("/login"),
-                        new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
-                .oauth2ResourceServer((resourceServer) -> resourceServer
-                        .jwt(Customizer.withDefaults()));
-        return http.build();
+        http.exceptionHandling((exceptions) -> {
+            final LoginUrlAuthenticationEntryPoint entryPoint = new LoginUrlAuthenticationEntryPoint(
+                    externalUrl + "/login");
+            exceptions.authenticationEntryPoint(entryPoint);
+        });
+        return http.oauth2ResourceServer((resourceServer) -> resourceServer
+                .jwt(Customizer.withDefaults()))
+                .cors(Customizer.withDefaults()).build();
     }
 
     @Bean
@@ -57,16 +65,12 @@ public class AppConfiguration {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
             JpaUserDetailsService userDetailsService)
             throws Exception {
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/register", "/favicon.ico"));
-        http.authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers("/assets/**", "/favicon.ico", "/error").permitAll()
-                .requestMatchers("/register", "/resetPassword").anonymous()
+        return http.authorizeHttpRequests((authorize) -> authorize
                 .anyRequest().authenticated())
-                .userDetailsService(userDetailsService)
-                .passwordManagement(pwd -> pwd.changePasswordPage("/resetPassword"))
-                .formLogin(form -> form.loginPage("/login")
-                        .permitAll());
-        return http.build();
+                .formLogin(form -> form.loginPage(externalUrl + "/login").permitAll())
+                .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
+                .build();
     }
 
     @Bean
@@ -104,4 +108,20 @@ public class AppConfiguration {
         return AuthorizationServerSettings.builder().build();
     }
 
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        config.addAllowedOrigin(externalUrl);
+        config.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 }

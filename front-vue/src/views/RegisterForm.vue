@@ -23,7 +23,7 @@ const handleRegister = () => {
     const htmlForm = form.value as HTMLFormElement;
     if (htmlForm.reportValidity()) {
       axios
-        .post("/register", {
+        .post("http://localhost:9000/register", {
           firstname: firstname.value,
           lastname: lastname.value,
           username: username.value,

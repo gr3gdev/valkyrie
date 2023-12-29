@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "single.page.application.url",
+  "type": "java.lang.String",
+  "description": "URL of the single page application"
+}]}

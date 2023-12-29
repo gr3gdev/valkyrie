@@ -13,7 +13,11 @@ const handleLogin = () => {
     const htmlForm = form.value as HTMLFormElement;
     if (htmlForm.reportValidity()) {
       axios
-        .post("/login", {
+        .post("http://localhost:9000/oauth2/authorize", {
+          client_id: "public-client",
+          client_secret: "secret",
+          grant_type: "authorization_code",
+          redirect_uri: "/login",
           username: username.value,
           password: password.value,
         })
